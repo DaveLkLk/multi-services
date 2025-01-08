@@ -1,6 +1,5 @@
 async function ConsultaPersonaRoute(req, res){
     const {tipoDoc, numDoc} = req.body;
-    console.log(numDoc);
     const lTDoc = tipoDoc.toLowerCase();
     const lnDoc = numDoc.toLowerCase();
     const url = `https://api.apis.net.pe/v1/${lTDoc}?numero=${lnDoc}`;
@@ -23,7 +22,7 @@ async function ConsultaPersonaRoute(req, res){
         return res.status(200).json({data, msg: '', error: false})
     } catch (error) {
         console.error('--------------CATCH ERROR GO--------------');
-        console.error('Error fetching data:', error);
+        console.error(error);
         console.error('--------------CATCH ERROR END--------------');
         res.status(500).json({ msg: 'Failed to fetch data', data: null, error: true });
     }
