@@ -1,3 +1,4 @@
+let count = 0;
 async function ConsultaPersonaRoute(req, res){
     const {tipoDoc, numDoc} = req.body;
     const lTDoc = tipoDoc.toLowerCase();
@@ -8,17 +9,21 @@ async function ConsultaPersonaRoute(req, res){
         const contentType = response.headers.get('content-type');
         if(!contentType || !contentType.includes('application/json')){
             const errorBody = await response.text();
+            console.log('*************************');
             console.error('--------------ERROR GO--------------');
             console.error('La API devolvió no devolvió un JSON: ', contentType);
             console.error('La API devolvió la siguiente respuesta: ');
             console.error(errorBody);
             console.error('--------------ERROR END--------------');
+            console.log('*************************');
             return res.status(500).json({ msg: 'La API devolvió un formato no esperado', data: null, error: true });
         }
         const data = await response.json();
-        // console.log('*************************');
+        count++
+        console.log('*************************');
         // console.log(data);
-        // console.log('*************************');
+        console.log(`Se envia resultado ${count} para: `+ data.numeroDocumento);
+        console.log('*************************');
         return res.status(200).json({data, msg: '', error: false})
     } catch (error) {
         console.error('--------------CATCH ERROR GO--------------');
