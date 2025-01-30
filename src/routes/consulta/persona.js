@@ -24,6 +24,7 @@ async function ConsultaPersonaRoute(req, res){
         // console.log(data);
         console.log(`Se envia resultado ${count} para: `+ data.numeroDocumento);
         console.log('*************************');
+        console.log(data);
         return res.status(200).json({data, msg: '', error: false})
     } catch (error) {
         console.error('--------------CATCH ERROR GO--------------');
