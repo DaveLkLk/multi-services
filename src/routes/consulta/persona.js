@@ -1,4 +1,16 @@
 let count = 0;
+const EMP_WARNING = Object.freeze({
+    condicion: {
+        state: true,
+        value: 'NO HABIDO',
+        message: 'La persona consultada no se encuentra habida'
+    },
+    estado: {
+        state: true,
+        value: 'BAJA DE OFICIO',
+        message: 'La persona consultada se encuentra en estado de baja de oficio'
+    }
+})
 async function ConsultaPersonaRoute(req, res){
     const {tipoDoc, numDoc} = req.body;
     const lTDoc = tipoDoc.toLowerCase();
@@ -21,11 +33,16 @@ async function ConsultaPersonaRoute(req, res){
         const data = await response.json();
         count++
         console.log('*************************');
-        // console.log(data);
         console.log(`Se envia resultado ${count} para: `+ data.numeroDocumento);
         console.log('*************************');
-        console.log(data);
-        return res.status(200).json({data, msg: '', error: false})
+        // console.log(data);
+        const { condicion, estado } = data
+        let warningRUC = null
+        if( String(condicion).toLowerCase() === EMP_WARNING.condicion.value.toLowerCase() && 
+            String(estado).toLowerCase() === EMP_WARNING.estado.value.toLowerCase()){
+                warningRUC = EMP_WARNING
+        }
+        return res.status(200).json({data, msg: '', error: false, warning: warningRUC})
     } catch (error) {
         console.error('--------------CATCH ERROR GO--------------');
         console.error(error);
